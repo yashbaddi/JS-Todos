@@ -9,8 +9,6 @@ function submitHandler() {
   }
 
   textbox.value = "";
-  console.log(textbox.value);
-  console.log("hey");
 }
 
 function addTodo(todoTextValue) {

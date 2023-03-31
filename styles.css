@@ -1,15 +1,13 @@
 :root{
     --color-primary:#ccc;
-    --color-primary-gray:#888
+    --color-primary-gray:#888;
     --color-primary-dark:#333;
     --color-tertary:#777;
-    --color-secondary:#28b485
+    --color-secondary:#89375F
 }
 
 
-html{
 
-}
 
 body{
     position: absolute;
@@ -32,7 +30,6 @@ body{
     top: 1rem;
     box-shadow: 0rem 0rem 2rem var(--color-primary-dark);
     background-color: #eee;
-    z-index: -1;
 
 }
 
@@ -44,7 +41,7 @@ body{
     width: 32rem;
     top: 5rem;
     left: 5rem;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
     border-radius: 1rem 1rem 0 0;
     overflow-y: auto;
 
@@ -59,7 +56,7 @@ body{
     top: 5rem;
     left: 5rem;
     border-radius: 0 0 1rem 1rem;
-    background-color: var(--color-primary-grey);
+    background-color: var(--color-primary-dark);
     overflow-y: auto;
 }
 
@@ -94,7 +91,7 @@ body{
 .todo{
    padding: 0.3rem;
    margin: 1rem;
-   background-color: var(--color-secondary);
+   background-color: var(--color-primary);
    border-radius: 0.3rem;
 }
 
@@ -105,6 +102,7 @@ body{
 .todo__text{
     font-size: 1.5rem;
     border: none;
+    background-color: var(--color-primary);
 
 }
 
