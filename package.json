@@ -1,0 +1,23 @@
+{
+  "name": "vanillajstodo",
+  "version": "1.0.0",
+  "description": "Todo Application based on Vanilla JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yashbaddi/VanillaJSToDo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yashbaddi/VanillaJSToDo/issues"
+  },
+  "homepage": "https://github.com/yashbaddi/VanillaJSToDo#readme",
+  "devDependencies": {
+    "sass": "^1.60.0",
+    "scss": "^0.2.4"
+  }
+}

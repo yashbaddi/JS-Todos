@@ -5,16 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanilla ToDo</title>
+    <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
     <div class="card">
 
-        <div class="pending"></div>
+        <div class="card__pending"></div>
         
-        <input type="text" name="" id="textbox">
-        <button class="card__sumbit" onclick="submitHandler()">+</button>
-        <div class="completed"></div>
+        <div class="textbox">
+            <input type="text" name="" id="textbox" class="textbox__input">
+            <button class="textbox__button" onclick="submitHandler()">&#10148;</button>
+        </div>
+        <div class="card__completed"></div>
     </div>
 
 

@@ -1,11 +1,13 @@
-const pendingList = document.querySelector(".pending");
-const completedList = document.querySelector(".completed");
+const pendingList = document.querySelector(".card__pending");
+const completedList = document.querySelector(".card__completed");
 
 function submitHandler() {
   const textbox = document.getElementById("textbox");
-  if (!/^\s/.test(textbox.value)) {
+
+  if (/[\S]/.test(textbox.value)) {
     addTodo(textbox.value);
   }
+
   textbox.value = "";
   console.log(textbox.value);
   console.log("hey");
@@ -24,26 +26,27 @@ function addTodo(todoTextValue) {
   todoCheckbox.classList.add("todo__checkbox");
   todoCheckbox.setAttribute("type", "checkbox");
   todoCheckbox.addEventListener("change", (event) => {
-    todoElement.classList.toggle("done");
+    todoText.classList.toggle("todo__completed");
     todoElement.remove();
     todoCheckbox.checked
       ? completedList.append(todoElement)
       : pendingList.append(todoElement);
   });
 
-  //Create Text
+  //Todo Text
   todoText.classList.add("todo__text");
   todoText.setAttribute("type", "text");
   todoText.value = todoTextValue;
 
-  //Create Date
+  //Todo Date
   const todoDate = document.createElement("input");
   todoDate.classList.add("todo__date");
   todoDate.setAttribute("type", "date");
 
-  //Create Select Priority
+  //Todo Select Priority
   todoPriority.classList.add("todo__select");
   const optionList = ["None", "High", "Medium", "Low"];
+
   optionList.forEach((element) => {
     const option = document.createElement("option");
     option.classList.add("todo__option)");
@@ -52,10 +55,14 @@ function addTodo(todoTextValue) {
     todoPriority.append(option);
   });
 
-  //Create Delete Button
+  //Todo Delete Button
   todoDelete.textContent = "\u{1F5D1}";
+  todoDelete.addEventListener("click", (event) => {
+    todoElement.remove();
+  });
   todoDelete.classList.add("todo__delete");
 
+  //Append all the elements to the todo
   todoElement.append(
     todoCheckbox,
     todoText,
@@ -64,5 +71,6 @@ function addTodo(todoTextValue) {
     todoDelete
   );
 
+  //Add the elements to the pending list
   pendingList.append(todoElement);
 }
