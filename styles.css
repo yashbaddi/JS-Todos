@@ -1,9 +1,15 @@
 :root{
-    --color-primary:#ccc;
-    --color-primary-gray:#888;
+    --color-primary:#fff;
+    --color-primary-gray:#aaa;
     --color-primary-dark:#333;
-    --color-tertary:#777;
-    --color-secondary:#89375F
+    
+    --color-secondary:#112D4E;
+
+    --color-tertiary:#ffff
+
+    --color-high:#F38181;
+    --color-medium:#F9ED69;
+    --color-low:#112d4e;
 }
 
 
@@ -24,41 +30,29 @@ body{
 
 .card{
     position: relative;
-    height: 37rem;
+    height: 35rem;
     width: 42rem;
     left: 20rem;
-    top: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     box-shadow: 0rem 0rem 2rem var(--color-primary-dark);
-    background-color: #eee;
-
+    border-radius: 1rem;
+    background-color: #fff;
 }
 
 
-.card__pending{
-    position: relative;
+.card__list{
+    position: absolute;
     display: block;
-    height: 20rem;
-    width: 32rem;
-    top: 5rem;
-    left: 5rem;
-    background-color: var(--color-primary-dark);
-    border-radius: 1rem 1rem 0 0;
-    overflow-y: auto;
-
-
-}
-
-.card__completed{
-    position: relative;
-    display: block;
-    height: 7rem;
-    width: 32rem;
-    top: 5rem;
-    left: 5rem;
-    border-radius: 0 0 1rem 1rem;
-    background-color: var(--color-primary-dark);
+    height: 30rem;
+    width: 25rem;
+    bottom: 1rem;
+    left: 20%;
+    background-color: var(--color-primary);
     overflow-y: auto;
 }
+
+
 
 .textbox{
     position: relative;
@@ -103,6 +97,10 @@ body{
     font-size: 1.5rem;
     border: none;
     background-color: var(--color-primary);
+
+}
+
+.todo__edit{
 
 }
 

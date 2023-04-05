@@ -13,7 +13,6 @@ function submitHandler() {
 
 function addTodo(todoTextValue) {
   const todoElement = document.createElement("div");
-  const todoCheckbox = document.createElement("input");
   const todoText = document.createElement("input");
   const todoPriority = document.createElement("select");
   const todoDelete = document.createElement("button");
@@ -21,6 +20,7 @@ function addTodo(todoTextValue) {
   todoElement.classList.add("todo");
 
   //Todo Checkbox
+  const todoCheckbox = document.createElement("input");
   todoCheckbox.classList.add("todo__checkbox");
   todoCheckbox.setAttribute("type", "checkbox");
   todoCheckbox.addEventListener("change", (event) => {
@@ -72,3 +72,5 @@ function addTodo(todoTextValue) {
   //Add the elements to the pending list
   pendingList.append(todoElement);
 }
+
+function CreateTodoCheckbox(todoElement) {}
