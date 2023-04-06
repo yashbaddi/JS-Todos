@@ -1,19 +1,10 @@
-const pendingList = document.querySelector(".card__pending");
-const completedList = document.querySelector(".card__completed");
-const createTodoBtn = document.getElementById("create-todo");
+const todoForm = document.querySelector(".card__form-div");
+const todoList = document.querySelector(".card__list");
 
-createTodoBtn.addEventListener("click", (event) => {});
-function submitHandler() {
-  const textbox = document.getElementById("textbox");
+let id = 0;
+todoForm.append(formBox());
 
-  if (/[\S]/.test(textbox.value)) {
-    addTodo(textbox.value);
-  }
-
-  textbox.value = "";
-}
-
-function addTodo(textValue, dateValue, priorityValue, descriptionValue) {
+function stringifyData(textValue, dateValue, priorityValue, descriptionValue) {
   return JSON.stringify({
     text: textValue,
     date: dateValue,
@@ -22,60 +13,77 @@ function addTodo(textValue, dateValue, priorityValue, descriptionValue) {
   });
 }
 
-function expandBox() {
+function formBox() {
   const box = document.createElement("div");
   box.classList.add("box");
+  const boxTitle = createTextElement("box__title");
+  const boxDate = createDateElement("box__date");
+  const boxPriority = createPriorityElement("box__priority");
+  const boxDescription = createTextElement("box__description");
+  const boxSubmitBtn = createButton("box__submit", "Submit");
+  const boxDeleteBtn = createButton("box__delete", "Delete");
+  boxSubmitBtn.addEventListener("click", onTodoSubmit);
 
-  createTextElement(box, "box__text");
-  createDateElement(box, "box__date");
-  createPriorityElement(box, "box__priority");
-  createTextElement(box, "box__description");
+  box.append(
+    boxTitle,
+    boxDate,
+    boxPriority,
+    boxDescription,
+    boxSubmitBtn,
+    boxDeleteBtn
+  );
 
-  document.body.append(box);
+  return box;
 }
 
-function createTodoElement(parentElement) {
+function createTodoElement() {
   const todoElement = document.createElement("div");
   todoElement.classList.add("todo");
 
   //Todo Checkbox
-  createTodoCheckbox(todoElement, "todo__checkbox", (event) => {
-    parentElement.children[1].classList.toggle("todo__completed");
-  });
+  todoElement.append(
+    createCheckbox("todo__checkbox", (event) => {
+      parentElement.children[1].classList.toggle("todo__completed");
+    })
+  );
 
-  createTodoViewContent(todoElement); //View Date and Text
+  todoViewContent(todoElement); //View Date and Text
 
-  //Todo Edit Button
-  const todoEditButton = document.createElement("button");
-  todoEditButton.classList.add("todo__edit");
-  todoElement.append(todoEditButton);
-
-  parentElement.append(todoElement);
+  todoElement.append(createButton("todo__edit", "Edit"));
+  return todoElement;
 }
 
-function createTextElement(parentElement, className) {
+function createTextElement(className) {
   const text = document.createElement("input");
   text.classList.add(className);
   text.setAttribute("type", "text");
-  parentElement.append(text);
+  return text;
 }
 
-function createCheckboxElement(parentElement, className, func) {
-  const todoCheckbox = document.createElement("input");
-  todoCheckbox.classList.add(className);
-  todoCheckbox.setAttribute("type", "checkbox");
-  todoCheckbox.addEventListener("change", func);
-  parentElement.append();
+function createCheckboxElement(className, func) {
+  const checkbox = document.createElement("input");
+  checkbox.classList.add(className);
+  checkbox.setAttribute("type", "checkbox");
+  checkbox.addEventListener("change", func);
+  return checkbox;
 }
 
-function createDateElement(parentElement, className) {
+function createDateElement(className) {
   const dateElement = document.createElement("input");
   dateElement.classList.add(className);
   dateElement.setAttribute("type", "date");
-  parentElement.append(dateElement);
+  return dateElement;
 }
 
-function createPriorityElement(parentElement, className) {
+function createButton(className, label, eventHandler = null) {
+  const button = document.createElement("button");
+  button.classList.add(className);
+  button.textContent = label;
+  button.addEventListener("click", eventHandler);
+  return button;
+}
+
+function createPriorityElement(className) {
   const priority = document.createElement("select");
   priority.classList.add(className);
   const optionList = ["None", "High", "Medium", "Low"];
@@ -87,20 +95,24 @@ function createPriorityElement(parentElement, className) {
     option.textContent = element;
     priority.append(option);
   });
-  parentElement.append(priority);
+  return priority;
 }
 
-function createTodoViewContent(todoElement) {
+function todoViewContent(todoElement) {
   //Todo View Text
-  const todoViewText = document.createElement("p");
-  todoViewText.classList.add("todo__text");
-  todoViewText.value = todoTextValue;
+  const todoViewTitle = document.createElement("p");
+  todoViewTitle.classList.add("todo__title--view");
+  todoViewTitle.value = todoTextValue;
 
   //Todo View Date
   const todoViewDate = document.createElement("p");
-  todoViewDate.classList.add("todo__date");
+  todoViewDate.classList.add("todo__date--view");
   todoViewDate = dateValue.toDateString();
 
   //Append all the elements to the todo
   todoElement.append(todoViewText, todoViewDate);
+}
+
+function onTodoSubmit(event) {
+  console.log(event);
 }
