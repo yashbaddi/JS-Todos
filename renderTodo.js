@@ -17,11 +17,7 @@ export default function renderTodo(data) {
     "todo__checkbox",
     () => {
       todoElement.classList.toggle("todo__completed");
-      console.log(currentTodo);
-      console.log("before", data);
       data.check = !data.check;
-      console.log("after", data);
-      console.log(currentTodo);
       localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
     },
     data.check

@@ -8,6 +8,8 @@ import {
 import renderTodo from "./renderTodo.js";
 
 export default function todoForm(data) {
+  console.log("undeine dat", data);
+  let emptyCheck = 0;
   if (data === undefined) {
     data = {
       check: false,
@@ -16,7 +18,7 @@ export default function todoForm(data) {
       priority: "None",
       description: "",
     };
-    currentTodo.push(data);
+    emptyCheck = 1;
   }
   const formbox = document.createElement("div");
   formbox.classList.add("formbox");
@@ -34,8 +36,13 @@ export default function todoForm(data) {
     data.priority = formPriority.value;
     data.description = formDescription.value;
 
+    if (emptyCheck == 1) {
+      currentTodo.push(data);
+      const cardList = document.querySelector(".card__list");
+      cardList.prepend(renderTodo(data));
+    }
+
     localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
-    renderTodo;
   });
 
   formbox.append(
