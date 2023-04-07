@@ -23,6 +23,8 @@ export function createDateElem(className, defaultValue = "") {
   const dateElement = document.createElement("input");
   dateElement.classList.add(className);
   dateElement.setAttribute("type", "date");
+  var today = new Date().toISOString().split("T")[0];
+  dateElement.setAttribute("min", today);
   dateElement.value = defaultValue;
   return dateElement;
 }
@@ -54,14 +56,14 @@ export function createButtonElem(className, label, eventHandler = null) {
 export function viewText(className, inputValue = "") {
   const viewText = document.createElement("p");
   viewText.classList.add(className);
-  viewText.append(document.createTextNode(inputValue));
+  viewText.textContent = inputValue;
   return viewText;
 }
 
 export function viewDate(className, inputValue = "Date Not Set") {
   const viewDate = document.createElement("p");
   viewDate.classList.add(className);
-  viewDate.append(inputValue);
+  viewDate.textContent = inputValue;
   return viewDate;
 }
 

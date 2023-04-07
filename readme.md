@@ -2,11 +2,11 @@
 
 ### [31-03-2023]
 
-- [ ] Not input element by default
-- [ ] ask due date and priority
-- [ ] cannot select due date before current
+- [x] Not input element by default
+- [x] ask due date and priority
+- [x] cannot select due date before current
 - [ ] Use trim and length instead of regex
-- [ ] Use Local Storage and array
-- [ ] take the text up
-- [ ] Create sub Functions
-- [ ] Expand to update to do
+- [x] Use Local Storage and array
+- [x] take the text up
+- [x] Create sub Functions
+- [x] Expand to update to do
