@@ -8,7 +8,6 @@ import {
 import renderTodo from "./renderTodo.js";
 
 export default function todoForm(data) {
-  console.log("undeine dat", data);
   let emptyCheck = 0;
   if (data === undefined) {
     data = {
@@ -20,6 +19,7 @@ export default function todoForm(data) {
     };
     emptyCheck = 1;
   }
+
   const formbox = document.createElement("div");
   formbox.classList.add("formbox");
   const formTitle = createTextElem("formbox__title", data.title);
