@@ -40,6 +40,8 @@ export default function todoForm(data) {
       currentTodo.push(data);
       const cardList = document.querySelector(".card__list");
       cardList.prepend(renderTodo(data));
+    } else {
+      formbox.parentElement.replaceWith(renderTodo(data));
     }
 
     localStorage.setItem("storeTodo", JSON.stringify(currentTodo));

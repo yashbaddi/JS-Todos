@@ -13,4 +13,5 @@ currentTodo.forEach((element) => {
   cardList.prepend(renderTodo(element));
 });
 
-cardForm.append(todoForm());
+const formElement = todoForm();
+cardForm.append(formElement);
