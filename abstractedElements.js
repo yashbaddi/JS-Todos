@@ -82,3 +82,9 @@ export function stringifyData(
     description: descriptionValue,
   });
 }
+
+// export function createTextNode(className, value = "") {
+//   const textnode = document.createTextNode(value);
+//   textnode.classList.add(className);
+//   return textnode;
+// }

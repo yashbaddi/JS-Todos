@@ -10,3 +10,9 @@
 - [x] take the text up
 - [x] Create sub Functions
 - [x] Expand to update to do
+
+### [07-04-2023]
+
+- [ ] Conditional Input
+- [ ] Use textarea for description
+- [ ] Add delete button on the front todo

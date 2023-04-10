@@ -7,10 +7,11 @@ const cardList = document.querySelector(".card__list");
 if (localStorage.getItem("storeTodo") === null) {
   localStorage.setItem("storeTodo", "[]");
 }
-export let currentTodo = JSON.parse(localStorage.getItem("storeTodo"));
+export const currentTodo = JSON.parse(localStorage.getItem("storeTodo"));
 
 currentTodo.forEach((element) => {
   cardList.prepend(renderTodo(element));
+  console.log(element);
 });
 
 const formElement = todoForm();

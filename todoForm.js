@@ -4,6 +4,7 @@ import {
   createDateElem,
   createPriorityElem,
   createTextElem,
+  viewText,
 } from "./abstractedElements.js";
 import renderTodo from "./renderTodo.js";
 
@@ -36,7 +37,7 @@ export default function todoForm(data) {
     data.priority = formPriority.value;
     data.description = formDescription.value;
 
-    if (emptyCheck == 1) {
+    if (emptyCheck === 1) {
       currentTodo.push(data);
       const cardList = document.querySelector(".card__list");
       cardList.prepend(renderTodo(data));
@@ -48,9 +49,13 @@ export default function todoForm(data) {
   });
 
   formbox.append(
+    viewText("formbox__label", "Title:"),
     formTitle,
+    viewText("formbox__label", "Date:"),
     formDate,
+    viewText("formbox__label", "Priority:"),
     formPriority,
+    viewText("formbox__label", "Description:"),
     formDescription,
     formSubmitBtn
   );

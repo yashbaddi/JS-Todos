@@ -13,6 +13,7 @@ export default function renderTodo(data) {
   const title = viewText("todo__title", data.title);
   const date = viewDate("todo__date", data.date);
   const edit = createButtonElem("todo__edit", "Edit");
+
   const checkbox = createCheckboxElem(
     "todo__checkbox",
     () => {
@@ -28,15 +29,14 @@ export default function renderTodo(data) {
   todoFormEdit.style.display = "none";
 
   const deletebutton = createButtonElem("todo__delete", "delete");
+
   deletebutton.addEventListener("click", () => {
     todoElement.remove();
     const dataIndex = currentTodo.indexOf(data);
-    console.log("current Todo", currentTodo);
-    console.log("index", dataIndex);
     currentTodo.splice(dataIndex, 1);
-    console.log(currentTodo);
     localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
   });
+
   todoFormEdit.append(deletebutton);
 
   edit.addEventListener("click", (event) => {
