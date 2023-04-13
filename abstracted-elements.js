@@ -88,3 +88,12 @@ export function stringifyData(
 //   textnode.classList.add(className);
 //   return textnode;
 // }
+
+export function editButttonDiv() {
+  const edit = document.createElement("div");
+  edit.classList.add("todo__edit");
+  edit.addEventListener("click", () => {
+    edit.classList.toggle("edit-arrow-rotate");
+  });
+  return edit;
+}

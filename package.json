@@ -19,6 +19,8 @@
   "devDependencies": {
     "sass": "^1.60.0",
     "scss": "^0.2.4"
+  },
+  "dependencies": {
+    "pg": "^8.10.0"
   }
-
 }

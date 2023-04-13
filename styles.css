@@ -77,13 +77,20 @@ body{
  
  .todo__checkbox{
     display: inline;
+    border-radius: 999;
      
  }   
+
+ .todo__sub{
+    border-radius: 5px;
+
+
+ }
 
  .todo__title{
     display: inline-block;
     height: 1.5rem;
-    width: 68%;
+    width: 50%;
     border: 1rem;
     border-color: var(--color-primary-dark);
     font-size: large;
@@ -101,19 +108,11 @@ body{
  .todo__edit{
     float: right;
  }
- 
- .todo__text{
-     font-size: 1.5rem;
-     border: none;
-     background-color: var(--color-primary);
- 
+
+ .todo__delete{
+    border: none;
+    background-color: transparent;
  }
- 
-
-
- 
-
- 
  
  .todo__completed{
      text-decoration: line-through;

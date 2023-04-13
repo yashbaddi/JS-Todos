@@ -5,8 +5,8 @@ import {
   createPriorityElem,
   createTextElem,
   viewText,
-} from "./abstractedElements.js";
-import renderTodo from "./renderTodo.js";
+} from "./abstracted-elements.js";
+import renderTodo from "./render-todo.js";
 
 export default function todoForm(data) {
   let emptyCheck = 0;
