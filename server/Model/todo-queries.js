@@ -49,12 +49,12 @@ export async function deleteTodo(id) {
 }
 
 //Test
-insertTodo(
-  "this is sparta",
-  "2023-06-23",
-  1,
-  "this is power of Mangekyo Sharingaan"
-);
+// insertTodo(
+//   "this is sparta",
+//   "2023-06-23",
+//   1,
+//   "this is power of Mangekyo Sharingaan"
+// );
 // readTodo(""+"")
 // updateTodo(
 //   1,
