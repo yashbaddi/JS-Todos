@@ -13,11 +13,9 @@ export default function renderTodo(data) {
   todoElement.classList.add("todo");
 
   const todoFormEdit = todoForm(data);
-  const todoFormEditDiv = document.createElement("div");
-  todoFormEditDiv.append(todoFormEdit);
-  todoFormEditDiv.style.display = "none";
+  todoFormEdit.style.display = "none";
 
-  const todoSub = todoSubContainer(data.title, data.date, todoFormEditDiv);
+  const todoSub = todoSubContainer(data.title, data.date, todoFormEdit);
 
   const checkbox = createCheckboxElem(
     "todo__checkbox",
@@ -45,7 +43,7 @@ export default function renderTodo(data) {
     localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
   });
   todoElement.append(deletebutton);
-  todoElement.append(todoFormEditDiv);
+  todoElement.append(todoFormEdit);
 
   return todoElement;
 }

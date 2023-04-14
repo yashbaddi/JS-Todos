@@ -21,6 +21,7 @@
     "scss": "^0.2.4"
   },
   "dependencies": {
+    "live-server": "^1.2.2",
     "pg": "^8.10.0"
   }
 }

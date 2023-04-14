@@ -1,6 +1,10 @@
 import renderTodo from "./render-todo.js";
 import todoForm from "./todo-form.js";
 
+fetch("localhost:3000", { cors: true }).then((res) => {
+  console.log(res);
+});
+
 const cardForm = document.querySelector(".card__form-div");
 const formElement = todoForm();
 cardForm.append(formElement);
