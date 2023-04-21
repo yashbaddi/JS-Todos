@@ -8,7 +8,7 @@ export async function insertTodo(
   descriptionValue
 ) {
   const idVal = await pool.query(
-    "INSERT INTO todos(checked,title,date,prio,descript) VALUES ($1,$2,$3,$4,$5) RETURNING id",
+    "INSERT INTO todos(checked,title,date,prio,descript) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING id",
     [checkValue, titleValue, dateValue, priorityValue, descriptionValue]
   );
   console.log("Returning ID", idVal.rows[0].id);
@@ -60,13 +60,7 @@ export async function deleteTodo(id) {
 //   "this is power of Mangekyo Sharingaan"
 // );
 // readTodo(""+"")
-// updateTodo(
-//   1,
-//   "this is spar",
-//   "2023-06-23",
-//   1,
-//   "this is power of Mangekyo Sharingaan"
-// );
+updateTodo(40, true, "qwejy", "2023-04-18T18:30:00.000Z", "Medium", "adfdgg");
 // console.log(deleteTodo(1));
 
 // console.log(readTodoAll());
@@ -77,3 +71,5 @@ export async function deleteTodo(id) {
 //     [id]
 //   );
 // }
+
+// console.log()

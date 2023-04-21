@@ -26,6 +26,8 @@ export default function todoForm(data) {
 
   const formbox = document.createElement("div");
   formbox.classList.add("formbox");
+  // createElement('text',{type:"password",classes: "class1 class2"}, "dummy")
+  // <text type="password" class="class1 class2">dummy</text>
 
   const formTitle = createTextElem("formbox__title", data.title);
   const formDate = createDateElem("formbox__date", data.date);

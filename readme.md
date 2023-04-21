@@ -16,3 +16,13 @@
 - [ ] Conditional Input
 - [ ] Use textarea for description
 - [ ] Add delete button on the front todo
+
+### [21-04-2023]
+
+- [ ] use single server for frontend and backend
+- [ ] Add filters show all,show done,show not done
+- [ ] add actions delete all,delete done
+- [ ] clean the entire todo-form.js
+- [ ] AbstractedElements.js create just a single function
+- [ ] Use api for the actions and filters not frontend(Use Rest conventions)
+- [ ] UI Changes(atleaast basic ones like padding)

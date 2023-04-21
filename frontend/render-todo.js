@@ -11,8 +11,6 @@ import todoForm from "./todo-form.js";
 
 export default function renderTodo(data) {
   console.log(data);
-  const todoElement = document.createElement("div");
-  todoElement.classList.add("todo");
 
   const todoFormEdit = todoForm(data);
   todoFormEdit.style.display = "none";
@@ -24,21 +22,17 @@ export default function renderTodo(data) {
   const checkbox = createCheckboxElem(
     "todo__checkbox",
     () => {
-      todoElement.classList.toggle();
+      // todoElement.classList.toggle();
       checkbox.checked
         ? todoSub.classList.add("todo__completed")
         : todoSub.classList.remove("todo__completed");
-      data.check = !data.check;
-      console.log("Data Check", data.check);
+      data.checked = !data.checked;
+      console.log("Data Check", ...Object.values(data));
       updateTodoDB(...Object.values(data));
       // localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
     },
-    data.check
+    data.checked
   );
-
-  todoElement.append(checkbox);
-
-  todoElement.append(todoSub);
 
   const deletebutton = createButtonElem("todo__delete", "\u{1F6AB}");
 
@@ -49,6 +43,12 @@ export default function renderTodo(data) {
     const dataIndex = currentTodo.indexOf(data);
     currentTodo.splice(dataIndex, 1);
   });
+
+  const todoElement = document.createElement("div");
+  todoElement.classList.add("todo");
+
+  todoElement.append(checkbox);
+  todoElement.append(todoSub);
   todoElement.append(deletebutton);
   todoElement.append(todoFormEdit);
 

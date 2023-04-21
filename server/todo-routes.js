@@ -35,6 +35,7 @@ export function routes(path, query, method, req, res) {
         try {
           res.writeHead(200, { "Content-Type": "application/json" });
           readTodoAll().then((value) => {
+            //  value.forEach(todo=>todo.date=todo.)
             res.write(JSON.stringify(value));
             res.end();
           });
