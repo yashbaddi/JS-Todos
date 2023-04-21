@@ -8,6 +8,20 @@ import {
 } from "./Model/todo-queries.js";
 
 export function routes(path, query, method, req, res) {
+  //Cors for preflight
+  res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:8080");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight CORS requests
+  if (req.method === "OPTIONS") {
+    console.log("hey allowed");
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
+  //Routes
   if (path === "/") {
     //Main Route
 
@@ -38,8 +52,9 @@ export function routes(path, query, method, req, res) {
             console.log(value);
             return insertTodo(...Object.values(value));
           })
-          .then(() => {
-            res.writeHead(200);
+          .then((idVal) => {
+            res.writeHead(200, { "Content-Type": "plain/text" });
+            res.write(idVal.toString());
             res.end();
           });
       }
@@ -58,10 +73,13 @@ export function routes(path, query, method, req, res) {
       } else if (method === "PUT") {
         //PUT on id
         //Update Specific Row
+        // console.log("UPDATE CONSOLE=",req)
         const bodyContent = bodyData(req);
         bodyContent
           .then((value) => {
             console.log(query.id);
+            console.log("BODY CONTENT:", value);
+
             return updateTodo(query.id, ...Object.values(value));
           })
           .then(() => {

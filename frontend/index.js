@@ -1,22 +1,21 @@
 import renderTodo from "./render-todo.js";
+import { getAllTodosDB } from "./requests.js";
 import todoForm from "./todo-form.js";
 
-fetch("localhost:3000", { cors: true }).then((res) => {
-  console.log(res);
-});
-
+export const currentTodo = [];
 const cardForm = document.querySelector(".card__form-div");
 const formElement = todoForm();
 cardForm.append(formElement);
 
 const cardList = document.querySelector(".card__list");
 
-if (localStorage.getItem("storeTodo") === null) {
-  localStorage.setItem("storeTodo", "[]");
-}
-export const currentTodo = JSON.parse(localStorage.getItem("storeTodo"));
+getAllTodosDB().then((res) => {
+  // console.log(res);
+  currentTodo.push(...res);
+  console.log("curr todo", currentTodo);
 
-currentTodo.forEach((element) => {
-  cardList.prepend(renderTodo(element));
-  console.log(element);
+  currentTodo.forEach((element) => {
+    cardList.prepend(renderTodo(element));
+    // console.log(element);
+  });
 });

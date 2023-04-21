@@ -7,45 +7,65 @@ import {
   viewText,
 } from "./abstracted-elements.js";
 import renderTodo from "./render-todo.js";
+import { createTodoDB, updateTodoDB } from "./requests.js";
 
 export default function todoForm(data) {
-  let emptyCheck = 0;
+  let isNewElement = false;
+  const basedata = {
+    id: undefined,
+    checked: false,
+    title: "",
+    date: "",
+    prio: "None",
+    descript: "",
+  };
   if (data === undefined) {
-    data = {
-      check: false,
-      title: "",
-      date: "",
-      priority: "None",
-      description: "",
-    };
-    emptyCheck = 1;
+    data = structuredClone(basedata);
+    isNewElement = true;
   }
 
   const formbox = document.createElement("div");
   formbox.classList.add("formbox");
+
   const formTitle = createTextElem("formbox__title", data.title);
   const formDate = createDateElem("formbox__date", data.date);
-  const formPriority = createPriorityElem("formbox__priority", data.priority);
-  const formDescription = createTextElem(
-    "formbox__description",
-    data.description
-  );
+  const formPrio = createPriorityElem("formbox__priority", data.prio);
+  const formDescript = createTextElem("formbox__description", data.descript);
 
   const formSubmitBtn = createButtonElem("formbox__btn", "submit", () => {
     data.title = formTitle.value;
     data.date = formDate.value;
-    data.priority = formPriority.value;
-    data.description = formDescription.value;
-
-    if (emptyCheck === 1) {
-      currentTodo.push(data);
-      const cardList = document.querySelector(".card__list");
-      cardList.prepend(renderTodo(data));
+    data.prio = formPrio.value;
+    data.descript = formDescript.value;
+    if (isNewElement === true) {
+      createTodoDB(false, data.title, data.date, data.prio, data.descript).then(
+        (resid) => {
+          // console.log(resid);
+          data.id = resid;
+          currentTodo.push(data);
+          const cardList = document.querySelector(".card__list");
+          cardList.prepend(renderTodo(data));
+          formTitle.value = "";
+          formDate.value = "";
+          formPrio.value = "None";
+          formDescript.value = "";
+          data = structuredClone(basedata);
+        }
+      );
     } else {
-      formbox.parentElement.replaceWith(renderTodo(data));
+      updateTodoDB(
+        data.id,
+        data.checked,
+        data.title,
+        data.date,
+        data.prio,
+        data.descript
+      ).then((res) => {
+        formbox.parentElement.replaceWith(renderTodo(data));
+      });
     }
 
-    localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
+    // localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
   });
 
   formbox.append(
@@ -54,9 +74,9 @@ export default function todoForm(data) {
     viewText("formbox__label", "Date:"),
     formDate,
     viewText("formbox__label", "Priority:"),
-    formPriority,
+    formPrio,
     viewText("formbox__label", "Description:"),
-    formDescription,
+    formDescript,
     formSubmitBtn
   );
 

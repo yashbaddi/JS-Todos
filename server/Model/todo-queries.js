@@ -1,28 +1,30 @@
 import pool from "./db-connection.js";
-
 //Create Todo
 export async function insertTodo(
+  checkValue = false,
   titleValue,
   dateValue,
   priorityValue,
   descriptionValue
 ) {
-  await pool.query(
-    "INSERT INTO todo(todo_title,todo_date,todo_prio,todo_desc) VALUES ($1,$2,$3,$4)",
-    [titleValue, dateValue, priorityValue, descriptionValue]
+  const idVal = await pool.query(
+    "INSERT INTO todos(checked,title,date,prio,descript) VALUES ($1,$2,$3,$4,$5) RETURNING id",
+    [checkValue, titleValue, dateValue, priorityValue, descriptionValue]
   );
+  console.log("Returning ID", idVal.rows[0].id);
+  return idVal.rows[0].id;
 }
 
 //Read Todo
 export async function readTodo(id) {
-  const res = await pool.query("SELECT * FROM todo WHERE todo_id=$1", [id]);
+  const res = await pool.query("SELECT * FROM todos WHERE id=$1", [id]);
   //   console.log(res.rows);
   return res.rows;
 }
 
 //Read All todo
 export async function readTodoAll() {
-  const res = await pool.query("SELECT * FROM todo");
+  const res = await pool.query("SELECT * FROM todos");
   //   console.log(res.rows);
   return res.rows;
 }
@@ -30,20 +32,22 @@ export async function readTodoAll() {
 //Update Todo
 export async function updateTodo(
   id,
+  checkValue = false,
   titleValue,
   dateValue,
   priorityValue,
   descriptionValue
 ) {
+  console.log("id=", id, "check=", checkValue, "title=", titleValue);
   await pool.query(
-    "UPDATE todo SET todo_title=$2,todo_date=$3,todo_prio=$4,todo_desc=$5 WHERE todo_id=$1",
-    [id, titleValue, dateValue, priorityValue, descriptionValue]
+    "UPDATE todos SET checked=$2,title=$3,date=$4,prio=$5,descript=$6 WHERE id=$1",
+    [id, checkValue, titleValue, dateValue, priorityValue, descriptionValue]
   );
 }
 
 //Delete Todo
 export async function deleteTodo(id) {
-  const res = await pool.query("DELETE FROM todo WHERE todo_id=$1", [id]);
+  const res = await pool.query("DELETE FROM todos WHERE id=$1", [id]);
   //   console.log(res);
   return res.rowCount > 0 ? 1 : 0;
 }
@@ -66,3 +70,10 @@ export async function deleteTodo(id) {
 // console.log(deleteTodo(1));
 
 // console.log(readTodoAll());
+
+// export async function toggleTodoCheckbox(id) {
+//   const res = await pool.query(
+//     "UPDATE todos SET checked=!checked WHERE id=$1",
+//     [id]
+//   );
+// }

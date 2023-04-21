@@ -6,16 +6,20 @@ import {
   editButttonDiv,
 } from "./abstracted-elements.js";
 import { currentTodo } from "./index.js";
+import { deleteTodoDB, updateTodoDB } from "./requests.js";
 import todoForm from "./todo-form.js";
 
 export default function renderTodo(data) {
+  console.log(data);
   const todoElement = document.createElement("div");
   todoElement.classList.add("todo");
 
   const todoFormEdit = todoForm(data);
   todoFormEdit.style.display = "none";
+  console.log(data);
 
   const todoSub = todoSubContainer(data.title, data.date, todoFormEdit);
+  // console.log("view", data.title, data.date);
 
   const checkbox = createCheckboxElem(
     "todo__checkbox",
@@ -25,7 +29,9 @@ export default function renderTodo(data) {
         ? todoSub.classList.add("todo__completed")
         : todoSub.classList.remove("todo__completed");
       data.check = !data.check;
-      localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
+      console.log("Data Check", data.check);
+      updateTodoDB(...Object.values(data));
+      // localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
     },
     data.check
   );
@@ -38,9 +44,10 @@ export default function renderTodo(data) {
 
   deletebutton.addEventListener("click", () => {
     todoElement.remove();
+    console.log(data.id);
+    deleteTodoDB(data.id);
     const dataIndex = currentTodo.indexOf(data);
     currentTodo.splice(dataIndex, 1);
-    localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
   });
   todoElement.append(deletebutton);
   todoElement.append(todoFormEdit);
