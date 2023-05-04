@@ -5,6 +5,6 @@ CREATE TABLE  todos(
     checked BOOLEAN,
     title VARCHAR(100) NOT NULL,
     date DATE NOT NULL,
-    prio VARCHAR(100),
-    descript VARCHAR(100));      --creates a table with specified columns
+    priority VARCHAR(100),
+    description VARCHAR(100));      --creates a table with specified columns
 

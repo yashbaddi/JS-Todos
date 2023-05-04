@@ -1,70 +1,42 @@
-export function createTextElem(className, defaultValue = "") {
-  const text = document.createElement("input");
-  text.classList.add(className);
-  text.setAttribute("type", "text");
-  text.value = defaultValue;
-  return text;
-}
-
-export function createCheckboxElem(
-  className,
-  func = null,
-  defaultValue = false
+export function createDOMElement(
+  elementName,
+  classArray = [],
+  childNodesArray = [],
+  customDomObject = {},
+  innerTextData = ""
 ) {
-  const checkbox = document.createElement("input");
-  checkbox.classList.add(className);
-  checkbox.setAttribute("type", "checkbox");
-  checkbox.checked = defaultValue;
-  checkbox.addEventListener("change", func);
-  return checkbox;
+  const element = document.createElement(elementName);
+  element.innerText = innerTextData;
+  assignAttributes(element, customDomObject);
+  element.classList.add(...classArray);
+  element.append(...childNodesArray);
+  return element;
 }
 
-export function createDateElem(className, defaultValue = "") {
-  const dateElement = document.createElement("input");
-  dateElement.classList.add(className);
-  dateElement.setAttribute("type", "date");
-  var today = new Date().toISOString().split("T")[0];
-  dateElement.setAttribute("min", today);
-  dateElement.value = defaultValue;
-  return dateElement;
+function assignAttributes(element, object1) {
+  for (const [key, value] of Object.entries(object1)) {
+    if (element[key] !== undefined) {
+      element[key] = value;
+    } else {
+      element.setAttribute(key, value);
+    }
+  }
 }
 
-export function createPriorityElem(className, defaultValue = "None") {
+export function createPriorityElement(className, defaultValue = "None") {
   const priority = document.createElement("select");
   priority.classList.add(className);
   const optionList = ["None", "High", "Medium", "Low"];
 
   optionList.forEach((element) => {
     const option = document.createElement("option");
-    option.classList.add("option)");
+    option.classList.add("option");
     option.setAttribute("value", element);
     option.textContent = element;
     priority.append(option);
   });
   priority.value = defaultValue;
   return priority;
-}
-
-export function createButtonElem(className, label, eventHandler = null) {
-  const button = document.createElement("button");
-  button.classList.add(className);
-  button.textContent = label;
-  button.addEventListener("click", eventHandler);
-  return button;
-}
-
-export function viewText(className, inputValue = "") {
-  const viewText = document.createElement("p");
-  viewText.classList.add(className);
-  viewText.textContent = inputValue;
-  return viewText;
-}
-
-export function viewDate(className, inputValue = "Date Not Set") {
-  const viewDate = document.createElement("p");
-  viewDate.classList.add(className);
-  viewDate.textContent = inputValue;
-  return viewDate;
 }
 
 export function stringifyData(
@@ -81,19 +53,4 @@ export function stringifyData(
     priority: priorityValue,
     description: descriptionValue,
   });
-}
-
-// export function createTextNode(className, value = "") {
-//   const textnode = document.createTextNode(value);
-//   textnode.classList.add(className);
-//   return textnode;
-// }
-
-export function editButttonDiv() {
-  const edit = document.createElement("div");
-  edit.classList.add("todo__edit");
-  edit.addEventListener("click", () => {
-    edit.classList.toggle("edit-arrow-rotate");
-  });
-  return edit;
 }

@@ -8,7 +8,7 @@ export async function insertTodo(
   descriptionValue
 ) {
   const idVal = await pool.query(
-    "INSERT INTO todos(checked,title,date,prio,descript) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING id",
+    "INSERT INTO todos(checked,title,date,priority,description) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING id",
     [checkValue, titleValue, dateValue, priorityValue, descriptionValue]
   );
   console.log("Returning ID", idVal.rows[0].id);
@@ -26,6 +26,21 @@ export async function readTodo(id) {
 export async function readTodoAll() {
   const res = await pool.query("SELECT * FROM todos");
   //   console.log(res.rows);
+  res.rows.forEach((elem) => {
+    elem.date = elem.date.toISOString().split("T")[0];
+  });
+  return res.rows;
+}
+
+export async function readTodoPending() {
+  const res = await pool.query("SELECT * FROM todos WHERE checked IS NOT TRUE");
+  //   console.log(res.rows);
+  return res.rows;
+}
+
+export async function readTodoCompleted() {
+  const res = await pool.query("SELECT * FROM todos WHERE checked IS TRUE");
+  //   console.log(res.rows);
   return res.rows;
 }
 
@@ -40,7 +55,7 @@ export async function updateTodo(
 ) {
   console.log("id=", id, "check=", checkValue, "title=", titleValue);
   await pool.query(
-    "UPDATE todos SET checked=$2,title=$3,date=$4,prio=$5,descript=$6 WHERE id=$1",
+    "UPDATE todos SET checked=$2,title=$3,date=$4,priority=$5,description=$6 WHERE id=$1",
     [id, checkValue, titleValue, dateValue, priorityValue, descriptionValue]
   );
 }
@@ -52,6 +67,14 @@ export async function deleteTodo(id) {
   return res.rowCount > 0 ? 1 : 0;
 }
 
+export async function deleteTodoCompleted() {
+  await pool.query("DELETE FROM todos WHERE checked IS TRUE", [id]);
+}
+
+export async function deleteTodoAll() {
+  await pool.query("DELETE FROM todos");
+}
+
 //Test
 // insertTodo(
 //   "this is sparta",
@@ -60,7 +83,7 @@ export async function deleteTodo(id) {
 //   "this is power of Mangekyo Sharingaan"
 // );
 // readTodo(""+"")
-updateTodo(40, true, "qwejy", "2023-04-18T18:30:00.000Z", "Medium", "adfdgg");
+// updateTodo(40, true, "qwejy", "2023-04-18T18:30:00.000Z", "Medium", "adfdgg");
 // console.log(deleteTodo(1));
 
 // console.log(readTodoAll());

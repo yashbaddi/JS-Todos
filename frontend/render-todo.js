@@ -1,80 +1,91 @@
-import {
-  createCheckboxElem,
-  viewText,
-  viewDate,
-  createButtonElem,
-  editButttonDiv,
-} from "./abstracted-elements.js";
+import { createDOMElement } from "./abstracted-elements.js";
 import { currentTodo } from "./index.js";
-import { deleteTodoDB, updateTodoDB } from "./requests.js";
-import todoForm from "./todo-form.js";
+import { renderTodoForm } from "./render-todo-form.js";
+import { deleteTodoRequest, updateTodoRequest } from "./requests.js";
 
 export default function renderTodo(data) {
-  console.log(data);
+  const todoFormEditDiv = createDOMElement("div", "todo__formdiv");
+  todoFormEditDiv.style.display = "none";
 
-  const todoFormEdit = todoForm(data);
-  todoFormEdit.style.display = "none";
-  console.log(data);
+  const todoSub = todoSubContainer(data.title, data.date, todoFormEditDiv);
 
-  const todoSub = todoSubContainer(data.title, data.date, todoFormEdit);
-  // console.log("view", data.title, data.date);
+  const checkbox = createDOMElement("input", ["todo__checkbox"], [], {
+    type: "checkbox",
+    checked: data.checked,
+  });
 
-  const checkbox = createCheckboxElem(
-    "todo__checkbox",
-    () => {
-      // todoElement.classList.toggle();
-      checkbox.checked
-        ? todoSub.classList.add("todo__completed")
-        : todoSub.classList.remove("todo__completed");
-      data.checked = !data.checked;
-      console.log("Data Check", ...Object.values(data));
-      updateTodoDB(...Object.values(data));
-      // localStorage.setItem("storeTodo", JSON.stringify(currentTodo));
-    },
-    data.checked
+  checkbox.addEventListener("change", (event) => {
+    onCheckboxEvent(event, todoSub, data);
+  });
+
+  const deletebutton = createDOMElement(
+    "button",
+    ["todo__delete"],
+    [],
+    {},
+    "\u{1F6AB}"
   );
 
-  const deletebutton = createButtonElem("todo__delete", "\u{1F6AB}");
+  const todoElement = createDOMElement(
+    "div",
+    ["todo"],
+    [checkbox, todoSub, deletebutton, todoFormEditDiv]
+  );
+
+  const todoFormEdit = renderTodoForm(data, (updatedData, form) => {
+    onSubmitUpdate(form, updatedData, todoElement);
+  });
+  todoFormEditDiv.append(todoFormEdit);
 
   deletebutton.addEventListener("click", () => {
     todoElement.remove();
-    console.log(data.id);
-    deleteTodoDB(data.id);
+    deleteTodoRequest(data.id);
     const dataIndex = currentTodo.indexOf(data);
     currentTodo.splice(dataIndex, 1);
   });
-
-  const todoElement = document.createElement("div");
-  todoElement.classList.add("todo");
-
-  todoElement.append(checkbox);
-  todoElement.append(todoSub);
-  todoElement.append(deletebutton);
-  todoElement.append(todoFormEdit);
 
   return todoElement;
 }
 
 function todoSubContainer(dataTitle, dataDate, dataForm) {
-  const todoSubContainer = document.createElement("div");
-  todoSubContainer.classList.add("todo__sub");
-  const title = viewText("todo__title", dataTitle);
-  const date = viewDate("todo__date", dataDate);
-  const edit = editButttonDiv();
+  const title = createDOMElement("p", ["todo__title"], [], {}, dataTitle);
+  const date = createDOMElement("p", ["todo__date"], [], {}, dataDate);
+  const edit = createDOMElement("div", ["todo__edit"]);
 
-  todoSubContainer.append(title, date, edit);
+  const todoSubContainer = createDOMElement(
+    "div",
+    ["todo__sub"],
+    [title, date, edit]
+  );
 
   todoSubContainer.addEventListener("click", displayEventHandler(dataForm));
+  edit.addEventListener("click", () => {
+    edit.classList.toggle("edit-arrow-rotate");
+  });
   edit.addEventListener("click", displayEventHandler(dataForm));
   return todoSubContainer;
 }
 
 function displayEventHandler(element) {
-  return (event) => {
+  return () => {
     if (element.style.display == "none") {
       element.style.display = "";
     } else {
       element.style.display = "none";
     }
   };
+}
+
+function onCheckboxEvent(event, container, data) {
+  event.target.checked
+    ? container.classList.add("todo__completed")
+    : container.classList.remove("todo__completed");
+  data.checked = !data.checked;
+  updateTodoRequest(data);
+}
+
+function onSubmitUpdate(form, updatedData, element) {
+  updateTodoRequest(updatedData).then((res) => {
+    element.replaceWith(renderTodo(updatedData));
+  });
 }

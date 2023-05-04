@@ -81,7 +81,7 @@ export function routes(path, query, method, req, res) {
             console.log(query.id);
             console.log("BODY CONTENT:", value);
 
-            return updateTodo(query.id, ...Object.values(value));
+            return updateTodo(...Object.values(value));
           })
           .then(() => {
             res.writeHead(200);
