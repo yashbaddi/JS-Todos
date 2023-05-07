@@ -1,4 +1,25 @@
 import pool from "./db-connection.js";
+
+export async function readTodoDB(filters) {
+  if (filters.id) {
+    return (await pool.query("SELECT * FROM todos WHERE id=$1", filters.id))
+      .rows;
+  }
+
+  if (filters.pending) {
+    return (
+      await pool.query("SELECT * FROM todos WHERE WHERE checked IS NOT TRUE")
+    ).rows;
+  }
+
+  if (filters.completed) {
+    return (await pool.query("SELECT * FROM todos WHERE WHERE checked IS TRUE"))
+      .rows;
+  }
+
+  return (await pool.query("SELECT * FROM todos")).rows;
+}
+
 //Create Todo
 export async function insertTodoDB(data) {
   console.log("Insert Todo Data", data);
@@ -10,70 +31,34 @@ export async function insertTodoDB(data) {
   return idVal.rows[0].id;
 }
 
-//Read Todo
-export async function readTodoDB(id) {
-  const res = await pool.query("SELECT * FROM todos WHERE id=$1", [id]);
-  //   console.log(res.rows);
-  res.rows.forEach((elem) => {
-    elem.date = elem.date.toISOString().split("T")[0];
-  });
-  return res.rows;
-}
-
-//Read All todo
-export async function readTodoAllDB() {
-  const res = await pool.query("SELECT * FROM todos");
-  //   console.log(res.rows);
-  res.rows.forEach((elem) => {
-    elem.date = elem.date.toISOString().split("T")[0];
-  });
-  return res.rows;
-}
-
-export async function readTodoPendingDB() {
-  const res = await pool.query("SELECT * FROM todos WHERE checked IS NOT TRUE");
-  //   console.log(res.rows);
-  res.rows.forEach((elem) => {
-    elem.date = elem.date.toISOString().split("T")[0];
-  });
-  return res.rows;
-}
-
-export async function readTodoCompletedDB() {
-  const res = await pool.query("SELECT * FROM todos WHERE checked IS TRUE");
-  //   console.log(res.rows);
-  res.rows.forEach((elem) => {
-    elem.date = elem.date.toISOString().split("T")[0];
-  });
-  return res.rows;
-}
-
 //Update Todo
-export async function updateTodoDB(id, data) {
+export async function updateTodoDB(data) {
   console.log("id=", id, "check=", data.checked, "title=", data.title);
   await pool.query(
     "UPDATE todos SET checked=$2,title=$3,date=$4,priority=$5,description=$6 WHERE id=$1",
-    [id, data.checked, data.title, data.date, data.priority, data.description]
+    [
+      data.id,
+      data.checked,
+      data.title,
+      data.date,
+      data.priority,
+      data.description,
+    ]
   );
 }
 
-//Delete Todo
-export async function deleteTodoDB(id) {
-  const res = await pool.query("DELETE FROM todos WHERE id=$1", [id]);
-  //   console.log(res);
-  return res.rowCount > 0 ? 1 : 0;
-}
+export async function deleteTodoDB(filters) {
+  if (filters.id) {
+    await pool.query("DELETE FROM todos WHERE id=$1", [filters.id]);
+  }
+  if (filters.pending) {
+    await pool.query("DELETE FROM todos WHERE WHERE checked IS NOT TRUE");
+  }
+  if (filters.completed) {
+    await pool.query("DELETE FROM todos WHERE WHERE checked IS TRUE");
+  }
 
-export async function deleteTodoPendingDB() {
-  await pool.query("DELETE FROM todos WHERE checked IS NOT TRUE", [id]);
-}
-
-export async function deleteTodoCompletedDB() {
-  await pool.query("DELETE FROM todos WHERE checked IS TRUE", [id]);
-}
-
-export async function deleteTodoAllDB() {
-  await pool.query("DELETE FROM todos");
+  return await pool.query("DELETE FROM todos");
 }
 
 //Test
