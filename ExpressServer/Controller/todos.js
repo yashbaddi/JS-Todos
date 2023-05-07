@@ -1,64 +1,52 @@
 import {
-  readTodoAllDB,
-  deleteTodoAllDB,
   readTodoDB,
   insertTodoDB,
   updateTodoDB,
   deleteTodoDB,
-  readTodoPendingDB,
-  deleteTodoPendingDB,
-  readTodoCompletedDB,
-  deleteTodoCompletedDB,
 } from "../Model/todos.js";
 
 export function readTodoAll(req, res) {
-  readTodoAllDB().then((value) => {
-    res.json(value);
-  });
-}
-
-export function deleteTodoAll(req, res) {
-  deleteTodoAllDB();
-}
-
-export function insertTodo(req, res) {
-  console.log("Insert Todo Controller", req.body);
-
-  insertTodoDB(req.body).then((idval) => {
-    res.send(idval.toString());
-  });
+  if (req.query.pending) {
+    readTodoDB({ pending: true }).then((value) => {
+      res.json(value);
+    });
+  } else if (req.query.completed) {
+    readTodoDB({ completed: true }).then((value) => {
+      res.json(value);
+    });
+  } else {
+    readTodoDB().then((value) => {
+      res.json(value);
+    });
+  }
 }
 
 export function readTodo(req, res) {
-  readTodoDB(req.params.id).then((value) => {
+  readTodoDB({ id: req.params.id }).then((value) => {
     res.json(value);
+  });
+}
+
+export function insertTodo(req, res) {
+  insertTodoDB(req.body).then((id) => {
+    res.send({ id: id });
   });
 }
 
 export function updateTodo(req, res) {
-  updateTodoDB(req.params.id, req.body);
+  updateTodoDB(req.body);
 }
 
 export function deleteTodo(req, res) {
-  deleteTodoDB(req.params.id);
+  deleteTodoDB({ id: req.params.id });
 }
 
-export function readTodoPending(req, res) {
-  readTodoPendingDB().then((value) => {
-    res.json(value);
-  });
-}
-
-export function deleteTodoPending(req, res) {
-  deleteTodoPendingDB();
-}
-
-export function readTodoCompleted(req, res) {
-  readTodoCompletedDB().then((value) => {
-    res.json(value);
-  });
-}
-
-export function deleteTodoCompleted(req, res) {
-  deleteTodoCompletedDB();
+export function deleteTodoAll(req, res) {
+  if (req.query.pending) {
+    deleteTodoDB({ pending: true });
+  } else if (req.query.completed) {
+    deleteTodoDB({ completed: true });
+  } else {
+    deleteTodoDB();
+  }
 }

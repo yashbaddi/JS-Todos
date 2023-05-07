@@ -19,10 +19,18 @@
 
 ### [21-04-2023]
 
-- [ ] use single server for frontend and backend
+- [x] use single server for frontend and backend
 - [ ] Add filters show all,show done,show not done
 - [ ] add actions delete all,delete done
 - [x] clean the entire todo-form.js
 - [x] AbstractedElements.js create just a single function
-- [ ] Use api for the actions and filters not frontend(Use Rest conventions)
+- [x] Use api for the actions and filters not frontend(Use Rest conventions)
 - [ ] UI Changes(atleaast basic ones like padding)
+
+### [05-05-2023]
+
+- [ ] Use query params for actions and filters
+- [x] use single functions for crud from models
+- [ ] do not resolve the date in models do it at frontend
+- [ ] keep all the responses consistant that is either everything should be one of json or other format
+- [ ] check for the changes needed in frontend

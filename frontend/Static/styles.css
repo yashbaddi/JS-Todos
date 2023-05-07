@@ -36,7 +36,7 @@ body{
     /* padding: 0.2rem; */
     height: 32rem;
     width: 30rem;
-    left: 20rem;
+    left: 100%;
     margin-top: 1rem;
     margin-bottom: 1rem;
     box-shadow: 0rem 0rem 5px var(--color-primary-dark);

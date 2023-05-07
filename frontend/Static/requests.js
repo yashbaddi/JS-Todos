@@ -17,9 +17,9 @@ export async function createTodoRequest(data) {
     },
     body: JSON.stringify(data),
   });
-  const id = await res.json();
-  console.log(id);
-  return id;
+  const response = await res.json();
+  console.log(response);
+  return response.id;
 }
 
 export async function updateTodoRequest(data) {
