@@ -2,7 +2,7 @@ const baseUrl = "http://127.0.0.1:3000";
 
 export async function getAllTodosRequest() {
   const path = "/todos/";
-  const data = await fetch(baseUrl + path, { method: "GET", mode: "cors" });
+  const data = await fetch(baseUrl + path, { method: "GET" });
   return data.json();
 }
 
