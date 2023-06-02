@@ -3,7 +3,7 @@ import {
   insertTodoDB,
   updateTodoDB,
   deleteTodoDB,
-} from "../Model/todos.js";
+} from "../Model/Postgres-Model/todos.js";
 
 export function readTodoAll(req, res) {
   if (req.query.pending) {
