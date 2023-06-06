@@ -9,7 +9,9 @@ const db = client.db(dbName);
 
 export async function connect(client) {
   try {
-    await client.connect();
+    await client.connect({
+      serverSelectionTimeoutMS: 30000,
+    });
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);

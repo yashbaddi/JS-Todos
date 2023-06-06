@@ -5,7 +5,7 @@ const collection = db.collection("todos");
 
 export async function readTodoDB(filters = {}) {
   if (filters.id) {
-    return await collection.find({ _id: ObjectId(filters.id) }).toArray();
+    return await collection.find({ _id: new ObjectId(filters.id) }).toArray();
   }
 
   if (filters.pending) {
@@ -31,19 +31,22 @@ export async function insertTodoDB(data) {
 
 //Update Todo
 export async function updateTodoDB(data) {
-  console.log("id=", ObjectId(data._id), "title=", data.title);
-  await collection.updateOne({ id: new ObjectId(data._id) }, { $set: data });
+  console.log("id=", new ObjectId(data._id), "title=", data.title);
+  const id = data._id;
+  delete data._id;
+  return await collection.updateOne({ _id: new ObjectId(id) }, { $set: data });
 }
 
 export async function deleteTodoDB(filters) {
+  console.log(filters.id);
   if (filters.id) {
     return collection.deleteOne({ _id: new ObjectId(filters.id) });
   }
   if (filters.pending) {
-    return await collection.deleteOne({ checked: false });
+    return await collection.deleteMany({ checked: false });
   }
   if (filters.completed) {
-    return await collection.deleteOne({ checked: true });
+    return await collection.deleteMany({ checked: true });
   }
 
   return await collection.deleteMany({});
@@ -82,4 +85,14 @@ export async function deleteTodoDB(filters) {
 // });
 // readTodoDB().then((data) => {
 //   console.log(data);
+// });
+
+// deleteTodoDB({ id: "647ec39d066653608330f934" });
+// updateTodoDB({
+//   _id: "647ed2358a40172b38bbbf23",
+//   title: "Shubham",
+//   checked: false,
+//   Date: "22-03-1999",
+//   priority: "Low",
+//   description: "",
 // });

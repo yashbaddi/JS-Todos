@@ -28,6 +28,7 @@ export function readTodo(req, res) {
 }
 
 export function insertTodo(req, res) {
+  console.log("InsertTodo Req Body", req.body);
   insertTodoDB(req.body).then((id) => {
     res.send({ _id: id });
   });
@@ -40,15 +41,23 @@ export function updateTodo(req, res) {
 }
 
 export function deleteTodo(req, res) {
-  deleteTodoDB({ id: req.params.id });
+  deleteTodoDB({ id: req.params.id }).then((data) => {
+    res.send(data);
+  });
 }
 
 export function deleteTodoAll(req, res) {
   if (req.query.pending) {
-    deleteTodoDB({ pending: true });
+    deleteTodoDB({ pending: true }).then((data) => {
+      res.send(data);
+    });
   } else if (req.query.completed) {
-    deleteTodoDB({ completed: true });
+    deleteTodoDB({ completed: true }).then((data) => {
+      res.send(data);
+    });
   } else {
-    deleteTodoDB();
+    deleteTodoDB().then((data) => {
+      res.send(data);
+    });
   }
 }
