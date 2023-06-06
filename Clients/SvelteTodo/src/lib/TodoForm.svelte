@@ -4,7 +4,11 @@
   let dataTitle;
   let dataDate;
   async function submitForm() {
-    await createTodo(todos, { title: dataTitle, date: dataDate });
+    await createTodo(todos, {
+      checked: false,
+      title: dataTitle,
+      date: dataDate,
+    });
     console.log("submit works");
   }
   todos.subscribe(() => {

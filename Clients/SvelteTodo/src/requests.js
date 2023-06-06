@@ -23,18 +23,19 @@ export async function createTodoRequest(data) {
 }
 
 export async function updateTodoRequest(data) {
-  const path = "/todos/" + data.id;
+  const path = "/todos/" + data._id;
 
-  await fetch(baseUrl + path, {
+  const res = await fetch(baseUrl + path, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
+  console.log("hey");
 }
 
 export async function deleteTodoRequest(id) {
   const path = "/todos/" + id;
-  await fetch(baseUrl + path, { method: "DELETE" });
+  const res = await fetch(baseUrl + path, { method: "DELETE" });
 }

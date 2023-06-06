@@ -3,7 +3,7 @@ import pool from "./db-connection.js";
 export async function readTodoDB(filters = {}) {
   console.log("DB Read Request");
   if (filters.id) {
-    return (await pool.query("SELECT * FROM todos WHERE id=$1", filters.id))
+    return (await pool.query("SELECT * FROM todos WHERE _id=$1", filters.id))
       .rows;
   }
 
@@ -25,20 +25,20 @@ export async function readTodoDB(filters = {}) {
 export async function insertTodoDB(data) {
   console.log("Insert Todo Data", data);
   const idVal = await pool.query(
-    "INSERT INTO todos(checked,title,date,priority,description) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING id",
+    "INSERT INTO todos(checked,title,date,priority,description) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING _id",
     [data.checked, data.title, data.date, data.priority, data.description]
   );
-  console.log("Returning ID", idVal.rows[0].id);
-  return idVal.rows[0].id;
+  console.log("Returning ID", idVal.rows[0]._id);
+  return idVal.rows[0]._id;
 }
 
 //Update Todo
 export async function updateTodoDB(data) {
-  console.log("id=", data.id, "check=", data.checked, "title=", data.title);
+  console.log("Update DB:", data);
   await pool.query(
-    "UPDATE todos SET checked=$2,title=$3,date=$4,priority=$5,description=$6 WHERE id=$1",
+    "UPDATE todos SET checked=$2,title=$3,date=$4,priority=$5,description=$6 WHERE _id=$1",
     [
-      data.id,
+      data._id,
       data.checked,
       data.title,
       data.date,
@@ -50,7 +50,7 @@ export async function updateTodoDB(data) {
 
 export async function deleteTodoDB(filters) {
   if (filters.id) {
-    return await pool.query("DELETE FROM todos WHERE id=$1", [filters.id]);
+    return await pool.query("DELETE FROM todos WHERE _id=$1", [filters.id]);
   }
   if (filters.pending) {
     return await pool.query(

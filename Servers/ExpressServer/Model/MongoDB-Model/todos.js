@@ -1,66 +1,52 @@
-import pool from "./db-connection.js";
+import { ObjectId } from "mongodb";
+import db from "./db-connection.js";
+
+const collection = db.collection("todos");
 
 export async function readTodoDB(filters = {}) {
   if (filters.id) {
-    return (await pool.query("SELECT * FROM todos WHERE id=$1", filters.id))
-      .rows;
+    return await collection.find({ _id: ObjectId(filters.id) }).toArray();
   }
 
   if (filters.pending) {
-    return (
-      await pool.query("SELECT * FROM todos WHERE WHERE checked IS NOT TRUE")
-    ).rows;
+    return await collection.find({ checked: false }).toArray();
   }
 
   if (filters.completed) {
-    return (await pool.query("SELECT * FROM todos WHERE WHERE checked IS TRUE"))
-      .rows;
+    return await collection.find({ checked: true }).toArray();
   }
 
-  return (await pool.query("SELECT * FROM todos")).rows;
+  return await collection.find({}).toArray();
 }
 
-//Create Todo
+// Create Todo
 export async function insertTodoDB(data) {
   console.log("Insert Todo Data", data);
-  const idVal = await pool.query(
-    "INSERT INTO todos(checked,title,date,priority,description) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING id",
-    [data.checked, data.title, data.date, data.priority, data.description]
-  );
-  console.log("Returning ID", idVal.rows[0].id);
-  return idVal.rows[0].id;
+
+  const returnValue = await collection.insertOne(data);
+
+  console.log("Returning ID", returnValue.insertedId);
+  return returnValue.insertedId;
 }
 
 //Update Todo
 export async function updateTodoDB(data) {
-  console.log("id=", data.id, "check=", data.checked, "title=", data.title);
-  await pool.query(
-    "UPDATE todos SET checked=$2,title=$3,date=$4,priority=$5,description=$6 WHERE id=$1",
-    [
-      data.id,
-      data.checked,
-      data.title,
-      data.date,
-      data.priority,
-      data.description,
-    ]
-  );
+  console.log("id=", ObjectId(data._id), "title=", data.title);
+  await collection.updateOne({ id: new ObjectId(data._id) }, { $set: data });
 }
 
 export async function deleteTodoDB(filters) {
   if (filters.id) {
-    return await pool.query("DELETE FROM todos WHERE id=$1", [filters.id]);
+    return collection.deleteOne({ _id: new ObjectId(filters.id) });
   }
   if (filters.pending) {
-    return await pool.query(
-      "DELETE FROM todos WHERE WHERE checked IS NOT TRUE"
-    );
+    return await collection.deleteOne({ checked: false });
   }
   if (filters.completed) {
-    return await pool.query("DELETE FROM todos WHERE WHERE checked IS TRUE");
+    return await collection.deleteOne({ checked: true });
   }
 
-  return await pool.query("DELETE FROM todos");
+  return await collection.deleteMany({});
 }
 
 //Test
@@ -84,3 +70,16 @@ export async function deleteTodoDB(filters) {
 // }
 
 // console.log()
+
+// insertTodoDB({
+//   title: "Yash",
+//   date: new Date(),
+//   checked: false,
+//   priority: "None",
+//   description: "",
+// }).then((id) => {
+//   console.log("id", id);
+// });
+// readTodoDB().then((data) => {
+//   console.log(data);
+// });

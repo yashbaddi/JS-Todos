@@ -3,7 +3,7 @@ import {
   insertTodoDB,
   updateTodoDB,
   deleteTodoDB,
-} from "../Model/Postgres-Model/todos.js";
+} from "../Model/MongoDB-Model/todos.js";
 
 export function readTodoAll(req, res) {
   if (req.query.pending) {
@@ -29,12 +29,14 @@ export function readTodo(req, res) {
 
 export function insertTodo(req, res) {
   insertTodoDB(req.body).then((id) => {
-    res.send({ id: id });
+    res.send({ _id: id });
   });
 }
 
 export function updateTodo(req, res) {
-  updateTodoDB(req.body);
+  updateTodoDB(req.body).then((data) => {
+    res.send(data);
+  });
 }
 
 export function deleteTodo(req, res) {
