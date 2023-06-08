@@ -3,7 +3,7 @@ import db from "./db-connection.js";
 
 const collection = db.collection("todos");
 
-export async function readTodoDB(filters = {}) {
+export async function readTodoDB(username, filters = {}) {
   if (filters.id) {
     return await collection.find({ _id: new ObjectId(filters.id) }).toArray();
   }
@@ -20,7 +20,7 @@ export async function readTodoDB(filters = {}) {
 }
 
 // Create Todo
-export async function insertTodoDB(data) {
+export async function insertTodoDB(username, data) {
   console.log("Insert Todo Data", data);
 
   const returnValue = await collection.insertOne(data);
@@ -30,14 +30,14 @@ export async function insertTodoDB(data) {
 }
 
 //Update Todo
-export async function updateTodoDB(data) {
+export async function updateTodoDB(username, data) {
   console.log("id=", new ObjectId(data._id), "title=", data.title);
   const id = data._id;
   delete data._id;
   return await collection.updateOne({ _id: new ObjectId(id) }, { $set: data });
 }
 
-export async function deleteTodoDB(filters) {
+export async function deleteTodoDB(username, filters) {
   console.log(filters.id);
   if (filters.id) {
     return collection.deleteOne({ _id: new ObjectId(filters.id) });
