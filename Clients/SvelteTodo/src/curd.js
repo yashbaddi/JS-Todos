@@ -42,11 +42,11 @@ export async function deleteTodo(store, id) {
   });
 }
 
-updateTodo(todos, {
-  checked: false,
-  date: "2023-06-27",
-  description: "cdcdvvvdvd",
-  id: 97,
-  priority: null,
-  title: "vdvfvdvd",
-});
+// updateTodo(todos, {
+//   checked: false,
+//   date: "2023-06-27",
+//   description: "cdcdvvvdvd",
+//   id: 97,
+//   priority: null,
+//   title: "vdvfvdvd",
+// });

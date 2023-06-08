@@ -11,9 +11,9 @@
     });
     console.log("submit works");
   }
-  todos.subscribe(() => {
-    console.log($todos);
-  });
+  // todos.subscribe(() => {
+  //   console.log($todos);
+  // });
 </script>
 
 <div class="todo-form">

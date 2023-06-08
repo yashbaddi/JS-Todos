@@ -1,19 +1,24 @@
+<script context="module">
+</script>
+
 <script>
-  import { createTodo, updateTodo } from "../curd";
+  import { updateTodo } from "../curd";
   import TodoEditForm from "./TodoEditForm.svelte";
   import { todos } from "../store/todo";
   export let data = {};
   let showEdit = false;
-  function showTodoForm() {
+
+  export function toggleTodoForm() {
     showEdit = !showEdit;
   }
+
   async function handlerChecked() {
     data.checked = !data.checked;
     console.log(data);
-    await createTodo(todos, data);
+    await updateTodo(todos, data);
   }
 
-  $: console.log(data);
+  $: console.log(showEdit);
 </script>
 
 <input type="checkbox" checked={data.checked} on:change={handlerChecked} />
@@ -21,10 +26,6 @@
 <p>{data.title}</p>
 
 <p>{data.date}</p>
-<button on:click={showTodoForm}> Drop </button>
+<button on:click={toggleTodoForm}> Drop </button>
 
-{#if showEdit}
-  <div>
-    <TodoEditForm {data} />
-  </div>
-{/if}
+<TodoEditForm {data} showEditForm={showEdit} />
