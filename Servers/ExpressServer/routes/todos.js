@@ -7,6 +7,10 @@ import {
   readTodo,
   readTodoAll,
   updateTodo,
+  insertTodoList,
+  readTodoList,
+  updateTodoList,
+  deleteTodoList,
 } from "../Controller/todos.js";
 
 const router = express.Router();
@@ -14,11 +18,18 @@ const router = express.Router();
 router
   .route("/")
   .get(readTodoAll)
-  .post(bodyParser.json(), insertTodo)
+  .post(bodyParser.json(), insertTodoList)
   .delete(deleteTodoAll);
 
 router
-  .route("/:id")
+  .route("/:list")
+  .get(readTodoList)
+  .post(bodyParser.json(), insertTodo)
+  .put(bodyParser.json(), updateTodoList)
+  .delete(deleteTodoList);
+
+router
+  .route("/:list/:id")
   .get(readTodo)
   .put(bodyParser.json(), updateTodo)
   .delete(deleteTodo);

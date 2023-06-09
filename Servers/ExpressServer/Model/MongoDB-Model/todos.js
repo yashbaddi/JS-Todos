@@ -3,41 +3,64 @@ import db from "./db-connection.js";
 
 const collection = db.collection("todos");
 
-export async function readTodoDB(username, filters = {}) {
-  if (filters.id) {
-    return await collection.find({ _id: new ObjectId(filters.id) }).toArray();
-  }
+export async function readTodoDB(filters = {}) {
+  if (filters.list) {
+    if (filters.id) {
+      return await collection
+        .find({
+          _id: new ObjectId(filters.list),
+          "todos._id": new ObjectId(filters.id),
+        })
+        .todos.toArray();
+    }
+    if (filters.pending) {
+      return await collection
+        .find({ _id: new ObjectId(filters.list), "todos.checked": false })
+        .toArray();
+    }
 
-  if (filters.pending) {
-    return await collection.find({ checked: false }).toArray();
+    if (filters.completed) {
+      return await collection
+        .find({ _id: new ObjectId(filters.list), "todos.checked": false })
+        .todos.toArray();
+    }
+    return await collection.find({ _id: new ObjectId(filters.list) }).toArray();
   }
-
-  if (filters.completed) {
-    return await collection.find({ checked: true }).toArray();
-  }
-
   return await collection.find({}).toArray();
 }
 
 // Create Todo
-export async function insertTodoDB(username, data) {
+export async function insertTodoDB(filters, data) {
   console.log("Insert Todo Data", data);
+  const listID = filters.list;
+  data.todo._id = new ObjectId();
 
-  const returnValue = await collection.insertOne(data);
+  if (filters.list === undefined) {
+    //Insert as list
+    listID = (await collection.insertOne(data)).insertedId;
+    return { list: listID, id: data.todo._id };
+  }
+  const todoID = await collection.updateOne(
+    { _id: new ObjectId(filters.list) },
+    {
+      $push: {
+        todos: data.todo,
+      },
+    }
+  );
 
-  console.log("Returning ID", returnValue.insertedId);
-  return returnValue.insertedId;
+  return { list: listID, id: data.todo.id };
 }
 
 //Update Todo
-export async function updateTodoDB(username, data) {
+export async function updateTodoDB(filters, data) {
   console.log("id=", new ObjectId(data._id), "title=", data.title);
   const id = data._id;
   delete data._id;
-  return await collection.updateOne({ _id: new ObjectId(id) }, { $set: data });
+  return await collection.updateOne({ _id: new ObjectId(id) }, { $set: "todo.":data.todo});
 }
 
-export async function deleteTodoDB(username, filters) {
+export async function deleteTodoDB(filters) {
   console.log(filters.id);
   if (filters.id) {
     return collection.deleteOne({ _id: new ObjectId(filters.id) });
