@@ -1,5 +1,7 @@
 # Vanilla Javascript ToDo Application
 
+This todo is half baked for multiple list of todos....Redo it entire thing if asked
+
 ### [31-03-2023]
 
 - [x] Not input element by default

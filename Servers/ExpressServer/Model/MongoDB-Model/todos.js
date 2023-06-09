@@ -57,7 +57,7 @@ export async function updateTodoDB(filters, data) {
   console.log("id=", new ObjectId(data._id), "title=", data.title);
   const id = data._id;
   delete data._id;
-  return await collection.updateOne({ _id: new ObjectId(id) }, { $set: "todo.":data.todo});
+  // return await collection.updateOne({ _id: new ObjectId(id) }, { $set: "todo.":data.todo});
 }
 
 export async function deleteTodoDB(filters) {
