@@ -37,7 +37,7 @@ export async function updateTodo(store, data) {
 export async function deleteTodo(store, id) {
   await deleteTodoRequest(id);
   store.update((store) => {
-    const filteredStore = store.filter((todo) => todo._id === id);
+    const filteredStore = store.filter((todo) => todo._id !== id);
     return [...filteredStore];
   });
 }

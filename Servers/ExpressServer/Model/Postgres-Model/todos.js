@@ -1,6 +1,6 @@
 import pool from "./db-connection.js";
 
-export async function readTodoDB(username, filters = {}) {
+export async function readTodoDB(filters = {}) {
   console.log("DB Read Request");
   if (filters.id) {
     return (await pool.query("SELECT * FROM todos WHERE _id=$1", filters.id))
@@ -22,7 +22,7 @@ export async function readTodoDB(username, filters = {}) {
 }
 
 //Create Todo
-export async function insertTodoDB(username, data) {
+export async function insertTodoDB(data) {
   console.log("Insert Todo Data", data);
   const idVal = await pool.query(
     "INSERT INTO todos(checked,title,date,priority,description) VALUES ($1,$2,$3::DATE,$4,$5) RETURNING _id",
@@ -33,7 +33,7 @@ export async function insertTodoDB(username, data) {
 }
 
 //Update Todo
-export async function updateTodoDB(username, data) {
+export async function updateTodoDB(data) {
   console.log("Update DB:", data);
   await pool.query(
     "UPDATE todos SET checked=$2,title=$3,date=$4,priority=$5,description=$6 WHERE _id=$1",
@@ -48,7 +48,7 @@ export async function updateTodoDB(username, data) {
   );
 }
 
-export async function deleteTodoDB(username, filters) {
+export async function deleteTodoDB(filters) {
   if (filters.id) {
     return await pool.query("DELETE FROM todos WHERE _id=$1", [filters.id]);
   }
