@@ -4,7 +4,6 @@ import {
   updateTodoRequest,
   deleteTodoRequest,
 } from "./requests.js";
-import { todos } from "./store/todo.js";
 
 export async function getAllTodos(store) {
   const data = await getAllTodosRequest();

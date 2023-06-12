@@ -3,7 +3,7 @@
   export let priorityValue = "None";
 </script>
 
-<select name="todo-priority" id="Priority" value={priorityValue}>
+<select name="todo-priority" id="Priority" bind:value={priorityValue}>
   {#each priorities as prio}
     <option value={prio}>{prio}</option>
   {/each}
