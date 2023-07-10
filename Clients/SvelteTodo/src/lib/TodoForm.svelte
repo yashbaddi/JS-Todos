@@ -1,5 +1,5 @@
 <script>
-  import { createTodo } from "../curd.js";
+  import { createTodo } from "../crud.js";
   import { todos } from "../store/todo.js";
   let dataTitle;
   let dataDate;

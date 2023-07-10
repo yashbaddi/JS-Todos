@@ -2,7 +2,7 @@
 </script>
 
 <script>
-  import { updateTodo } from "../curd";
+  import { updateTodo } from "../crud";
   import TodoEditForm from "./TodoEditForm.svelte";
   import { todos } from "../store/todo";
   export let data = {};

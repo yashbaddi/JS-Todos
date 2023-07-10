@@ -29,8 +29,13 @@
 
 ### [05-05-2023]
 
-- [ ] Use query params for actions and filters
+- [x] Use query params for actions and filters
 - [x] use single functions for crud from models
 - [ ] do not resolve the date in models do it at frontend
 - [ ] keep all the responses consistant that is either everything should be one of json or other format
 - [ ] check for the changes needed in frontend
+
+### [10-06-2023]
+
+- [ ] Add single query params
+- [x] CSS Changes

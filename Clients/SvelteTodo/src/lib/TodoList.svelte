@@ -1,7 +1,7 @@
 <script>
   import TodoCard from "./TodoCard.svelte";
   import { todos } from "../store/todo";
-  import { getAllTodos } from "../curd";
+  import { getAllTodos } from "../crud";
   let todosData;
 
   async function getData() {

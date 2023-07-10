@@ -1,5 +1,5 @@
 <script>
-  import { deleteTodo, updateTodo } from "../curd";
+  import { deleteTodo, updateTodo } from "../crud";
   import { todos } from "../store/todo";
   import Priority from "./Priority.svelte";
 
